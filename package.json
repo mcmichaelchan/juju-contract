@@ -1,0 +1,25 @@
+{
+  "name": "juju-contract",
+  "version": "1.0.0",
+  "description": "a simple ethereum contract app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mcmicahelchan/juju-contract.git"
+  },
+  "keywords": [
+    "juju",
+    "contract",
+    "mc",
+    "ethereum"
+  ],
+  "author": "mc",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mcmicahelchan/juju-contract/issues"
+  },
+  "homepage": "https://github.com/mcmicahelchan/juju-contract#readme"
+}
