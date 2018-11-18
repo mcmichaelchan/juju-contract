@@ -4,7 +4,11 @@
   "description": "a simple ethereum contract app",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "compile": "node scripts/compile.js",
+    "pretest": "npm run compile",
+    "test": "./node_modules/.bin/mocha tests",
+    "predeploy": "npm run compile",
+    "deploy": "node scripts/deploy.js"
   },
   "repository": {
     "type": "git",
@@ -21,5 +25,15 @@
   "bugs": {
     "url": "https://github.com/mcmicahelchan/juju-contract/issues"
   },
-  "homepage": "https://github.com/mcmicahelchan/juju-contract#readme"
+  "homepage": "https://github.com/mcmicahelchan/juju-contract#readme",
+  "dependencies": {
+    "fs-extra": "^7.0.1",
+    "solc": "^0.4.25",
+    "truffle-hdwallet-provider": "0.0.3",
+    "web3": "^1.0.0-beta.34"
+  },
+  "devDependencies": {
+    "ganache-cli": "^6.2.1",
+    "mocha": "^5.2.0"
+  }
 }
