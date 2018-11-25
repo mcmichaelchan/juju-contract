@@ -4,7 +4,7 @@ const Web3 = require('web3');
 const HDWalletProvider = require('truffle-hdwallet-provider');
 
 // 1. 拿到 bytecode
-const contractPath = path.resolve(__dirname, '../compiled/LaborContract.json');
+const contractPath = path.resolve(__dirname, '../compiled/LaborContractList.json');
 const { interface, bytecode } = require(contractPath);
 
 // 2. 配置 provider
@@ -24,7 +24,7 @@ const web3 = new Web3(provider);
     // 5. 创建合约实例并且部署
     console.time('contract-deploy');
     const result = await new web3.eth.Contract(JSON.parse(interface))
-        .deploy({ data: bytecode, arguments: ['陈嘉健', 1543135562319, 1543195562319, 10000, '前端开发'] })
+        .deploy({ data: bytecode })
         .send({ from: accounts[0], gas: '1000000' });
     console.timeEnd('contract-deploy');
     const contractAddress = result.options.address;

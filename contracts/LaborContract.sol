@@ -1,5 +1,18 @@
 pragma solidity ^0.4.17;
 
+contract LaborContractList {
+    address[] laborContracts;
+    function createLaborContract(string _partyA_name, uint _startDate, uint 
+    _endDate, uint _salary, string _job) public {
+        address newLaborContract = new LaborContract(_partyA_name, _startDate, _endDate, _salary, _job, msg.sender);
+        laborContracts.push(newLaborContract);
+    }
+    function getContracts() public view returns(address[]) {
+        return laborContracts;
+    }
+
+}
+
 contract LaborContract {
     struct Modification {
         address operator;
@@ -24,8 +37,8 @@ contract LaborContract {
     Sign[] public signHistory;
     
     constructor(string _partyA_name, uint _startDate, uint 
-    _endDate, uint _salary, string _job) public {
-        partyA = msg.sender;
+    _endDate, uint _salary, string _job, address _partyA) public {
+        partyA = _partyA;
         partyA_name = _partyA_name;
         startDate = _startDate;
         endDate = _endDate;
