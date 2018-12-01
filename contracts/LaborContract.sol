@@ -65,5 +65,15 @@ contract LaborContract {
             partyB = msg.sender;
         }
     }
-    
+
+    function getSummary() public view returns (string, uint, uint, uint, string, address) {
+        return (
+            partyA_name,
+            startDate,
+            endDate,
+            salary,
+            job,
+            partyA
+        );
+    }    
 }
