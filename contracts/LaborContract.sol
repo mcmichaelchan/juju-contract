@@ -17,9 +17,8 @@ contract LaborContract {
     struct Modification {
         address operator;
         uint time;
-        string key;
-        string from;
-        string to;
+        string m_type;
+        string content;
     }
     struct Sign {
        address signer;
@@ -31,6 +30,7 @@ contract LaborContract {
     uint public endDate;
     uint public salary;
     string public job;
+    string public status;
     string public name;
     Modification[] public modifyHistory;
     Sign[] public signHistory;
@@ -44,25 +44,41 @@ contract LaborContract {
         salary = _salary;
         job = _job;
         name = _name;
+        status = 'sign';
+        Modification memory newModification = Modification({
+            operator: _partyA,
+            time: now,
+            m_type: 'create',
+            content: '创建合同'
+        });
+        modifyHistory.push(newModification);
     }
     
-    function getSummary() public view returns (string, address, address, string) {
+    function getSummary() public view returns (string, address, address, string, string) {
         return (
             job,
             partyA,
             partyB,
-            name
+            name,
+            status
         );
     }
     
     function sign() public{
-        if (msg.sender == partyA || msg.sender == partyB) {
+        if (signHistory.length == 0 && (msg.sender == partyA || msg.sender == partyB)) {
             Sign memory newSign = Sign({
                 signer: msg.sender,
                 time: now
              });
-            if (signHistory.length < 2) {
-                signHistory.push(newSign);
+             signHistory.push(newSign);
+        } else if (signHistory.length == 1) {
+            if (signHistory[0].signer != msg.sender && (msg.sender == partyA || msg.sender == partyB)) {
+                Sign memory newSign2 = Sign({
+                signer: msg.sender,
+                time: now
+             });
+             signHistory.push(newSign2);
+             status = 'finish';
             }
         }
     }
@@ -76,7 +92,7 @@ contract LaborContract {
     }
     
 
-    function getDetail() public view returns (uint, uint, uint, string, address, address, string) {
+    function getDetail() public view returns (uint, uint, uint, string, address, address, string, string) {
         return (
             startDate,
             endDate,
@@ -84,7 +100,32 @@ contract LaborContract {
             job,
             partyA,
             partyB,
-            name
+            name,
+            status
         );
-    }    
+    }
+
+    function getHistoryLength() public view returns (uint) {
+        return modifyHistory.length;
+    }
+
+    function getHistory(uint index) public constant returns (address, uint, string, string) {
+        return (
+            modifyHistory[index].operator,
+            modifyHistory[index].time,
+            modifyHistory[index].m_type,
+            modifyHistory[index].content
+        );
+    }
+
+    function getSignHistoryLength() public view returns (uint) {
+        return signHistory.length;
+    }
+
+    function getSignHistory(uint index) public constant returns (address, uint) {
+        return (
+            signHistory[index].signer,
+            signHistory[index].time
+        );
+    }       
 }
