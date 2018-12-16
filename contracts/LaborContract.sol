@@ -81,6 +81,13 @@ contract LaborContract {
              status = 'finish';
             }
         }
+         Modification memory newModification = Modification({
+                operator: msg.sender,
+                time: now,
+                m_type: 'sign',
+                content: '签署合同'
+        });
+        modifyHistory.push(newModification);
     }
     
     function designateParty(uint party) public {
